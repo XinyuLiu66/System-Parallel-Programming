@@ -7,36 +7,32 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include <omp.h>
 
-void cal_prim_num(int n, int chunksize);
+
+void cal_prim_num(int n);
 char isPrimNum(int n);
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    cal_prim_num(10,1);
+    cal_prim_num(5);
     return 0;
 }
 
 // return a prim array
-void cal_prim_num(int n, int chunksize) {
+void cal_prim_num(int n) {
     char* A = malloc(n);
     char* p;
     p = A;
-
-
-    double start_time = omp_get_wtime();   // begin timing
-    // begin parallel
-    #pragma omp parallel for schedule(static, chunksize)
     for (int i = 0; i < n; i++) {
         *p = (char)isPrimNum(i);
         p++;
-        // printf("i = %d, thread_id = %d\n", i, omp_get_thread_num());
     }
-    double time = omp_get_wtime() - start_time;
-    printf("Time = %f\n", time);   // end timing
-
-
+    // print array A
+    printf("Array A is : \n");
+    for(int i = 0; i< n; i++) {
+        printf("%c   ", *(A+i));
+    }
+    printf("\n");
     printf("The size = %d\n", n);
     
 }
